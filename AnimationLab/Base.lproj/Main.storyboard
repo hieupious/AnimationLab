@@ -81,6 +81,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <connections>
+                        <outlet property="trayArrow" destination="Efp-Ld-51q" id="9l1-tH-XcF"/>
                         <outlet property="trayView" destination="k3X-0f-IVX" id="g3P-fP-ejg"/>
                     </connections>
                 </viewController>

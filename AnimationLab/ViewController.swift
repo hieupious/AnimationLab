@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UIGestureRecognizerDelegate {
 
     @IBOutlet weak var trayView: UIView!
     var trayOriginalCenter: CGPoint!
@@ -18,7 +18,10 @@ class ViewController: UIViewController {
     var newlyFaceCenter: CGPoint!
     var panFaceGestureRecognizer: UIPanGestureRecognizer!
     var pinchFaceGestureRecognizer: UIPinchGestureRecognizer!
+    var rotateFaceGestureRecognizer: UIRotationGestureRecognizer!
+    var tapGesture: UITapGestureRecognizer!
     
+    @IBOutlet weak var trayArrow: UIImageView!
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -66,9 +69,12 @@ class ViewController: UIViewController {
     @IBAction func onTapTrayViewGesture(sender: UITapGestureRecognizer) {
         UIView.animateWithDuration(0.5, animations: {
             if self.trayView.frame.origin == self.trayCenterWhenOpen {
+                
+                self.trayArrow.transform = CGAffineTransformMakeRotation(CGFloat(M_PI))
                 self.trayView.frame.origin = self.trayCenterWhenClosed
             } else {
                 self.trayView.frame.origin = self.trayCenterWhenOpen
+                self.trayArrow.transform = CGAffineTransformMakeRotation(CGFloat(M_PI))
             }
         })
     }
@@ -85,9 +91,16 @@ class ViewController: UIViewController {
             newlyCreatedFace = UIImageView(image: imageView.image)
             panFaceGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(self.handlePanGestureFace(_:)))
             pinchFaceGestureRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(self.handlePinchGestureFace(_:)))
+            tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
+            tapGesture.numberOfTapsRequired = 2
+            pinchFaceGestureRecognizer.delegate = self
+            rotateFaceGestureRecognizer = UIRotationGestureRecognizer(target: self, action: #selector(self.handleRotateGestureFace(_:)))
+            
             newlyCreatedFace.userInteractionEnabled = true
             newlyCreatedFace.addGestureRecognizer(panFaceGestureRecognizer)
             newlyCreatedFace.addGestureRecognizer(pinchFaceGestureRecognizer)
+            newlyCreatedFace.addGestureRecognizer(rotateFaceGestureRecognizer)
+            newlyCreatedFace.addGestureRecognizer(tapGesture)
             
             // Add the new face to the tray's parent view.
             view.addSubview(newlyCreatedFace)
@@ -131,15 +144,25 @@ class ViewController: UIViewController {
         imageview.transform = CGAffineTransformScale(imageview.transform, scale, scale)
         pinchGestureRecognizer.scale = 1
         
-//        if pinchGestureRecognizer.state == .Began {
-//            
-//        } else if pinchGestureRecognizer.state == .Changed {
-//            let scale = pinchGestureRecognizer.scale
-//           newlyCreatedFace.transform = CGAffineTransformMakeScale(scale, scale)
-//        } else if pinchGestureRecognizer.state == .Ended {
-//            
-//        }
         
+    }
+    
+    func handleRotateGestureFace(sender: UIRotationGestureRecognizer) {
+        let rotation = sender.rotation
+        let imageView = sender.view as! UIImageView
+        imageView.transform = CGAffineTransformRotate(imageView.transform, rotation)
+        sender.rotation = 0
+        print("rotate")
+    }
+    
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+    
+    func handleTap(sender: UITapGestureRecognizer) {
+        if sender.numberOfTapsRequired == 2 {
+           sender.view?.removeFromSuperview()
+        }
         
     }
 }
