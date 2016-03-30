@@ -14,7 +14,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" id="k3X-0f-IVX">
-                                <rect key="frame" x="0.0" y="319" width="320" height="249"/>
+                                <rect key="frame" x="0.0" y="320" width="320" height="250"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sad" id="vIU-Zg-yjQ">
@@ -50,6 +50,7 @@
                                 <gestureRecognizers/>
                                 <connections>
                                     <outletCollection property="gestureRecognizers" destination="3pi-mv-zS2" appends="YES" id="wxE-RY-2g1"/>
+                                    <outletCollection property="gestureRecognizers" destination="IEn-KQ-Dxh" appends="YES" id="OhO-eo-W2w"/>
                                 </connections>
                             </view>
                         </subviews>
@@ -65,6 +66,11 @@
                         <action selector="onTrayPanGesture:" destination="BYZ-38-t0r" id="lTe-GD-FQd"/>
                     </connections>
                 </panGestureRecognizer>
+                <tapGestureRecognizer id="IEn-KQ-Dxh">
+                    <connections>
+                        <action selector="onTapTrayViewGesture:" destination="BYZ-38-t0r" id="kex-Tj-VHA"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="130" y="323"/>
         </scene>
