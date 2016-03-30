@@ -16,6 +16,7 @@ class ViewController: UIViewController {
     var trayCenterWhenClosed: CGPoint!
     var newlyCreatedFace: UIImageView!
     var newlyFaceCenter: CGPoint!
+    var panFaceGestureRecognizer: UIPanGestureRecognizer!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -81,6 +82,9 @@ class ViewController: UIViewController {
             
             // Create a new image view that has the same image as the one currently panning
             newlyCreatedFace = UIImageView(image: imageView.image)
+            panFaceGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(self.handlePanGestureFace(_:)))
+            newlyCreatedFace.userInteractionEnabled = true
+            newlyCreatedFace.addGestureRecognizer(panFaceGestureRecognizer)
             
             // Add the new face to the tray's parent view.
             view.addSubview(newlyCreatedFace)
@@ -92,14 +96,28 @@ class ViewController: UIViewController {
             // main view, you have to offset the coordinates
             newlyCreatedFace.center.y += trayView.frame.origin.y
             newlyFaceCenter = newlyCreatedFace.center
+            newlyCreatedFace.transform = CGAffineTransformMakeScale(2, 2)
         } else if panGestureRecognizer.state == UIGestureRecognizerState.Changed {
             
             newlyCreatedFace.center = CGPoint(x: newlyFaceCenter.x + translation.x, y: newlyFaceCenter.y + translation.y)
             
         } else if panGestureRecognizer.state == UIGestureRecognizerState.Ended {
-
+            newlyCreatedFace.transform = CGAffineTransformMakeScale(1, 1)
             
             
+        }
+    }
+    
+    func handlePanGestureFace(panGestureRecognizer: UIPanGestureRecognizer) {
+        let translation = panGestureRecognizer.translationInView(view)
+        
+        if panGestureRecognizer.state == .Began {
+            newlyCreatedFace.transform = CGAffineTransformMakeScale(2, 2)
+            newlyFaceCenter = newlyCreatedFace.center
+        } else if panGestureRecognizer.state == .Changed {
+            newlyCreatedFace.center = CGPoint(x: newlyFaceCenter.x + translation.x, y: newlyFaceCenter.y + translation.y)
+        } else if panGestureRecognizer.state == .Ended {
+           newlyCreatedFace.transform = CGAffineTransformMakeScale(1, 1)
         }
     }
 }
