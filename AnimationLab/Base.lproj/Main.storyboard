@@ -17,29 +17,53 @@
                                 <rect key="frame" x="0.0" y="320" width="320" height="250"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sad" id="vIU-Zg-yjQ">
+                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sad" id="vIU-Zg-yjQ">
                                         <rect key="frame" x="37" y="85" width="62" height="59"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <gestureRecognizers/>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="NM8-BR-wEu" appends="YES" id="9j5-Kx-5cU"/>
+                                        </connections>
                                     </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="excited" id="DZr-DF-ihb">
+                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="excited" id="DZr-DF-ihb">
                                         <rect key="frame" x="129" y="85" width="62" height="59"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <gestureRecognizers/>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="dR3-fl-VHa" appends="YES" id="cx4-5R-k0E"/>
+                                        </connections>
                                     </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="happy" id="Dg5-Ow-qkC">
+                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="happy" id="Dg5-Ow-qkC">
                                         <rect key="frame" x="225" y="85" width="62" height="59"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <gestureRecognizers/>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="idV-s3-RQb" appends="YES" id="Y5j-Fq-ejB"/>
+                                        </connections>
                                     </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="dead" id="i1R-Pm-Euv">
+                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="dead" id="i1R-Pm-Euv">
                                         <rect key="frame" x="225" y="169" width="62" height="59"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <gestureRecognizers/>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="ND8-7k-beJ" appends="YES" id="vyq-G8-mNd"/>
+                                        </connections>
                                     </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="wink" id="1lo-34-IPF">
+                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="wink" id="1lo-34-IPF">
                                         <rect key="frame" x="129" y="169" width="62" height="59"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <gestureRecognizers/>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="p9k-34-63w" appends="YES" id="Jle-as-gOP"/>
+                                        </connections>
                                     </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tongue" id="UHX-1i-OHc">
+                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tongue" id="UHX-1i-OHc">
                                         <rect key="frame" x="37" y="169" width="62" height="59"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <gestureRecognizers/>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="Ado-aj-sMw" appends="YES" id="f9c-8s-bF8"/>
+                                        </connections>
                                     </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="down_arrow" id="Efp-Ld-51q">
                                         <rect key="frame" x="147" y="8" width="27" height="16"/>
@@ -71,6 +95,36 @@
                         <action selector="onTapTrayViewGesture:" destination="BYZ-38-t0r" id="kex-Tj-VHA"/>
                     </connections>
                 </tapGestureRecognizer>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="NM8-BR-wEu">
+                    <connections>
+                        <action selector="onPanSmileyGesture:" destination="BYZ-38-t0r" id="PgT-kA-je4"/>
+                    </connections>
+                </panGestureRecognizer>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="dR3-fl-VHa">
+                    <connections>
+                        <action selector="onPanSmileyGesture:" destination="BYZ-38-t0r" id="Dwh-ci-yaq"/>
+                    </connections>
+                </panGestureRecognizer>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="idV-s3-RQb">
+                    <connections>
+                        <action selector="onPanSmileyGesture:" destination="BYZ-38-t0r" id="b4H-Mj-SUF"/>
+                    </connections>
+                </panGestureRecognizer>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="ND8-7k-beJ">
+                    <connections>
+                        <action selector="onPanSmileyGesture:" destination="BYZ-38-t0r" id="mnr-fk-OaH"/>
+                    </connections>
+                </panGestureRecognizer>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="p9k-34-63w">
+                    <connections>
+                        <action selector="onPanSmileyGesture:" destination="BYZ-38-t0r" id="guR-iD-AwU"/>
+                    </connections>
+                </panGestureRecognizer>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="Ado-aj-sMw">
+                    <connections>
+                        <action selector="onPanSmileyGesture:" destination="BYZ-38-t0r" id="ev1-Ee-jdE"/>
+                    </connections>
+                </panGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="130" y="323"/>
         </scene>
