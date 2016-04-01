@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, UIGestureRecognizerDelegate {
+class ViewController: UIViewController  {
 
     @IBOutlet weak var trayView: UIView!
     var trayOriginalCenter: CGPoint!
@@ -25,7 +25,6 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        //trayOriginalCenter = trayView.center
         trayCenterWhenOpen = CGPoint(x: 0, y: 320)
         trayCenterWhenClosed = CGPoint(x: 0, y: 520)
         trayView.frame.origin = trayCenterWhenClosed
@@ -33,7 +32,6 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     @IBAction func onTrayPanGesture(panGestureRecognizer: UIPanGestureRecognizer) {
@@ -46,16 +44,23 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
             trayOriginalCenter = trayView.center
         } else if panGestureRecognizer.state == UIGestureRecognizerState.Changed {
             print("Gesture changed at: \(point)")
+            if trayView.frame.origin.y < trayCenterWhenOpen.y {
+               trayView.center = CGPoint(x: trayOriginalCenter.x, y: trayOriginalCenter.y + translation.y/10)
+                trayView.frame.size.height = trayView.frame.size.height - translation.y/10
+            } else {
+                trayView.center = CGPoint(x: trayOriginalCenter.x, y: trayOriginalCenter.y + translation.y)
+                trayView.frame.size.height = trayView.frame.size.height - translation.y
+            }
             
-            trayView.center = CGPoint(x: trayOriginalCenter.x, y: trayOriginalCenter.y + translation.y)
         } else if panGestureRecognizer.state == UIGestureRecognizerState.Ended {
             print("Gesture ended at: \(point)")
-//            trayView.center = trayOriginalCenter
             UIView.animateWithDuration(0.5, animations: {
                 if velocity.y > 0 {
                     self.trayView.frame.origin = self.trayCenterWhenClosed
+                    self.trayArrow.transform = CGAffineTransformMakeRotation(CGFloat(M_PI))
                 } else {
                     self.trayView.frame.origin = self.trayCenterWhenOpen
+                    self.trayArrow.transform = CGAffineTransformMakeRotation(CGFloat(2*M_PI))
                 }
             })
             
@@ -68,13 +73,13 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     
     @IBAction func onTapTrayViewGesture(sender: UITapGestureRecognizer) {
         UIView.animateWithDuration(0.5, animations: {
-            if self.trayView.frame.origin == self.trayCenterWhenOpen {
+            if self.trayView.frame.origin == self.trayCenterWhenClosed {
                 
                 self.trayArrow.transform = CGAffineTransformMakeRotation(CGFloat(M_PI))
-                self.trayView.frame.origin = self.trayCenterWhenClosed
-            } else {
                 self.trayView.frame.origin = self.trayCenterWhenOpen
-                self.trayArrow.transform = CGAffineTransformMakeRotation(CGFloat(M_PI))
+            } else {
+                self.trayView.frame.origin = self.trayCenterWhenClosed
+                self.trayArrow.transform = CGAffineTransformMakeRotation(CGFloat(2*M_PI))
             }
         })
     }
@@ -95,7 +100,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
             tapGesture.numberOfTapsRequired = 2
             pinchFaceGestureRecognizer.delegate = self
             rotateFaceGestureRecognizer = UIRotationGestureRecognizer(target: self, action: #selector(self.handleRotateGestureFace(_:)))
-            
+            rotateFaceGestureRecognizer.delegate = self
             newlyCreatedFace.userInteractionEnabled = true
             newlyCreatedFace.addGestureRecognizer(panFaceGestureRecognizer)
             newlyCreatedFace.addGestureRecognizer(pinchFaceGestureRecognizer)
@@ -118,7 +123,14 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
             newlyCreatedFace.center = CGPoint(x: newlyFaceCenter.x + translation.x, y: newlyFaceCenter.y + translation.y)
             
         } else if panGestureRecognizer.state == UIGestureRecognizerState.Ended {
-            newlyCreatedFace.transform = CGAffineTransformMakeScale(1, 1)
+            if newlyCreatedFace.frame.origin.y + newlyCreatedFace.frame.height > trayView.frame.origin.y {
+                UIView.animateWithDuration(1, animations: {
+                    self.newlyCreatedFace.removeFromSuperview()
+                })
+            } else {
+                newlyCreatedFace.transform = CGAffineTransformMakeScale(1, 1)
+            }
+            
             
             
         }
@@ -155,15 +167,19 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         print("rotate")
     }
     
-    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return true
-    }
+    
     
     func handleTap(sender: UITapGestureRecognizer) {
         if sender.numberOfTapsRequired == 2 {
            sender.view?.removeFromSuperview()
         }
         
+    }
+}
+
+extension ViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
 }
 
